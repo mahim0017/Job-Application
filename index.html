@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application</title>
+
+     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+<style>
+    *{
+  font-family: "Inter", sans-serif;
+}
+button{
+    cursor: pointer;
+}
+.card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px !important;
+    margin-top: 20px;
+    border: 1px solid #E2E8F0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    width: 80% !important;
+}
+.card h2{
+   color: #002C5C;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;  
+}
+.card p {
+    margin: 0;
+   
+}
+.card p:nth-of-type(1) {
+    color: #64748B;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.card p:nth-of-type(2) {
+    color: #94A3B8;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+
+.status-badge {
+    background-color: #EEF4FF;
+    color: #002C5C !important; 
+    font-size: 11px; 
+    font-weight: 700; 
+    padding: 8px 12px; 
+    border-radius: 4px; 
+    display: inline-block; 
+    text-transform: uppercase;
+    margin-bottom: 12px; 
+    letter-spacing: 0.5px; 
+    line-height: 1; 
+    width: 113px;
+    height: 36px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card p:nth-of-type(3) {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 12px;
+}
+.btn-group button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    transition: 0.3s;
+}
+.btn-interview {
+    border: 1px solid #10B981;
+    color: #10B981;
+    background: transparent;
+}
+.btn-interview:hover {
+    background-color: #10B981;
+    color: white;
+}
+.btn-rejected {
+    border: 1px solid #EF4444;
+    color: #EF4444;
+    background: transparent;
+}
+.btn-rejected:hover {
+    background-color: #EF4444;
+    color: white;
+}
+.delete-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #E2E8F0;
+    color: #CBD5E1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+.delete-btn:hover {
+    color: #EF4444;
+    border-color: #EF4444;
+}
+</style>
+<link rel="stylesheet" href="first.css">
+
+    
+
+</head>
+<body class="bg-[#F8FAFC] pt-6">
+    <section class="container mx-auto  border-b border-gray-200 pb-[30px] mb-[32px]">
+        <h2 class=" font-bold text-3xl text-[#002C5C] mb-[20px]">Job Application Tracke</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-[16px] justify-center items-center ">
+            <div class= "w-[360px] h-[97px] bg-[#FFFFFF] rounded-2xl p-6 ">
+                <h2 class="text-[#002C5C] font-medium text-[14px]">Total</h2>
+                <p id="total-job-count" class="font-bold text-2xl text-[#002C5C]">0</p>
+            </div>
+            <div class= "w-[360px] h-[97px] bg-[#FFFFFF] rounded-2xl p-6 ">
+                <h2 class="text-[#002C5C] font-medium text-[14px]">Interview</h2>
+                <p id="interview-count" class="font-bold text-2xl text-[#10B981]">0</p>
+            </div>
+            <div class= "w-[360px] h-[97px] bg-[#FFFFFF] rounded-2xl p-6 ">
+                <h2 class="text-[#002C5C] font-medium text-[14px]">Rejected</h2>
+                <p id="rejected-count" class="font-bold text-2xl text-[#EF4444]">0</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="main-container" class="container mx-auto space-y-[20px] ">
+        <div class="flex justify-between">
+            <h2 class="text-[#002C5C] font-bold text-2xl">Available Jobs</h2>
+            <p class="text-[#64748B]">8 jobs</p>
+            
+        </div>
+        <div> 
+        <div class="flex gap-[10px]">
+            <button class="w-[80px] h-[32px] bg-gray-100 rounded-[4px]">
+                <p class="text-[#64748B] font-semibold text-[12px]">ALL</p>
+            </button>
+            <button class="w-[80px] h-[32px]  bg-gray-100  rounded-[4px]">
+                <p class="text-[#64748B] font-semibold text-[12px]">Interview</p>
+            </button>
+            <button class="w-[80px] h-[32px]  bg-gray-100 rounded-[4px]">
+                <p class="text-[#64748B] font-semibold text-[12px]">Rejected</p>
+            </button>
+        </div>
+        <div id="card-parent" class="space-y-8">
+            
+        
+            </div>
+            
+           
+
+        </div>
+    </section>
+
+    
+
+    <script src="script/script.js"></script>
+    </body>
+</html>
