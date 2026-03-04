@@ -1,4 +1,4 @@
-const jobs = [
+let jobs = [
   {
     companyName: "TechNova Solutions",
     position: "Frontend Developer",
@@ -72,9 +72,87 @@ const jobs = [
     description: "Looking for a cybersecurity expert to manage and secure company systems."
   }
 ];
-let jobData = [];
-const cardParent = document.querySelector('#card-parent');
+// let jobData = [];
+let filterValue = "all";
 
+
+const cardParent = document.querySelector('#card-parent');
+const topBtn = document.querySelectorAll(".filter-btn");
+const totalJobCount = document.querySelector("#total-job-count");
+const interviewCount = document.querySelector("#interview-count");
+const rejectedCount = document.querySelector("#rejected-count")
+
+const allJobs = document.querySelector('#available');
+console.log (allJobs)
+
+
+let allJobsCount = 0;
+let interviewJobCount = 0;
+let rejectedJobCount =0;
+
+function updateCount (){
+  allJobsCount = jobs.length;
+  const interviewArr =[];
+  const rejectedArr = [];
+
+ 
+
+  for( const item of jobs) {
+    if (item.status === "Interview") {
+      interviewArr.push(item);
+    }else if (item.status === "Rejected") {
+      rejectedArr.push(item);
+    }
+  } 
+  interviewJobCount = interviewArr.length;
+  rejectedJobCount = rejectedArr.length;
+  totalJobCount.textContent = allJobsCount;
+  interviewCount.textContent = interviewJobCount;
+  rejectedCount.textContent = rejectedJobCount;
+  if (filterValue === "Interview"){
+    allJobs.textContent = `${interviewJobCount} of ${allJobsCount} jobs`
+  }else if (filterValue === "Rejected") {
+    allJobs.textContent = `${rejectedJobCount} of ${allJobsCount} jobs`
+  }else {
+    allJobs.textContent = `${allJobsCount} jobs`;
+  }
+}
+updateCount();
+for (const btn of topBtn) {
+  btn.addEventListener("click", function () {
+    filterValue = btn.value;
+    for(const btn of topBtn){
+      btn.classList.remove("active");
+    }
+    btn.classList.add("active");
+    // console.log(filterValue);
+    filterOut(filterValue);
+  });
+}
+function filterOut(value){
+  const interviewArr =[];
+  const rejectedArr = [];
+
+ 
+
+  for( const item of jobs) {
+    if (item.status === "Interview") {
+      interviewArr.push(item);
+    }else if (item.status === "Rejected") {
+      rejectedArr.push(item);
+    }
+  }
+
+  if (value === "Interview"){
+    renderApp(interviewArr);
+  }else if(value === "Rejected") {
+    renderApp(rejectedArr);
+  } else {
+    renderApp(jobs);
+  }
+  updateCount();
+}
+  
 function renderApp(arr) {
 
 
@@ -83,6 +161,12 @@ function renderApp(arr) {
     if(arr.length > 0 ){
         for (let job of arr) {
             const card  = document.createElement("div");
+            card.classList.add("card");
+            if (job.status === "Interview") {
+        card.style.borderLeft = "6px solid #10B981"; 
+      } else if (job.status === "Rejected") {
+        card.style.borderLeft = "6px solid #EF4444";
+      }
             
             const company = document.createElement('h2');
             company.innerText = job.companyName;
@@ -101,7 +185,16 @@ function renderApp(arr) {
             const status = document.createElement("span");
             status.innerHTML = `${job.status} `
             
-            status.className = "status-badge"
+            status.className = "status-badge";
+            
+      
+      if (job.status === "Interview") {
+        status.style.backgroundColor = "#10B981";
+        status.style.color = "white"; 
+      } else if (job.status === "Rejected") {
+        status.style.backgroundColor = "#EF4444";
+        status.style.color = "white";
+      }
             card.appendChild(status);
 
             const desc = document.createElement("p");
@@ -115,7 +208,12 @@ function renderApp(arr) {
             inerviewBtn.innerText = "Interview";
             inerviewBtn.className = "btn-interview";
             inerviewBtn.addEventListener("click", function (){
-                job.status = "Interview"
+                job.status = "Interview";
+              
+                updateCount();
+                filterOut(filterValue);
+
+                // console.log(job.status)
             })
             btnGroup.appendChild (inerviewBtn);
 
@@ -124,6 +222,9 @@ function renderApp(arr) {
             rejectBtn.innerText = "Rejected";
             rejectBtn.addEventListener ("click", function(){
                 job.status = "Rejected";
+                updateCount();
+                 filterOut(filterValue);
+                // console.log(job.status)
             })
             btnGroup.appendChild(rejectBtn);
             card.appendChild(btnGroup);
@@ -131,19 +232,19 @@ function renderApp(arr) {
             const deleteBtn = document.createElement("button")
             deleteBtn.className = "delete-btn";
             deleteBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+            deleteBtn.addEventListener("click", function(){
+              jobs = jobs.filter(item => item !== job);
+              console.log(jobs);
+              filterOut(filterValue);
+              updateCount();
+            })
 
             card.appendChild(deleteBtn);
             card.classList.add("card")
             cardParent.appendChild(card);
-
-            
-
-
-
-
-        }
+  }
     }else {
-        cardParent.innerHTML= `<div class=" container mx-auto h-[400px] rounded-[8px] bg-[#ffffff] flex flex-col justify-center items-center">
+        cardParent.innerHTML= `<div class="mt-10 container mx-auto h-[400px] rounded-[8px] bg-[#ffffff] flex flex-col justify-center items-center">
          <img src="jobs.png" alt="">
          <h2 class="text-[#002C5C] font-semibold text-[24px]">No jobs Available</h2>
         <p class="text-[#64748B]">Check back soon for new job opportunities</p>
@@ -151,4 +252,7 @@ function renderApp(arr) {
         }
 } 
 
+
+
+// filterOut(selectedValue);
 renderApp(jobs);
